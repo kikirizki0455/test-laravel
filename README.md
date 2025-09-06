@@ -1,134 +1,73 @@
-📚 Laravel Library API
+# 📚 Library API (Laravel + Sanctum)
 
-API sederhana untuk sistem peminjaman buku menggunakan Laravel 11 dengan fitur authentication, search & filter, queue email notification, testing, dan dokumentasi API (Swagger).
+API sederhana untuk manajemen buku dan peminjaman menggunakan Laravel 11, Sanctum untuk autentikasi, dan Queue Job untuk notifikasi email.
 
-🚀 Features
+---
 
-Authentication: Laravel Sanctum (register, login, logout).
+## ✨ Fitur
 
-Book Management: Tambah, update, hapus, list buku.
+-   🔑 Authentication (Register & Login dengan Sanctum)
+-   📖 CRUD Buku
+-   🔍 Search & Filter (by title, author, published_year)
+-   📦 Peminjaman & Pengembalian Buku
+-   📬 Queue Job untuk kirim notifikasi email (via log driver)
+-   🧪 Feature & Unit Test
+-   📑 Swagger API Docs
 
-Search & Filter: Cari buku berdasarkan author, year, atau kata kunci title.
+---
 
-Borrowing System: User dapat meminjam buku. Jika stok habis → gagal.
+## 🛠️ Tech Stack
 
-Queue & Job: Mengirim email notifikasi (via log driver).
+-   PHP 8.2
+-   Laravel 11
+-   MySQL
+-   Laravel Sanctum
+-   Laravel Queue (log driver untuk testing)
 
-Seeder: Generate data dummy (10 user, 30 buku).
+---
 
-API Resource: Response data konsisten dengan Laravel Resource.
+## 🚀 Instalasi
 
-Testing: Unit & Feature Test untuk:
+```bash
+# clone repo
+git clone <repo-url>
+cd project-folder
 
-Tambah buku.
-
-Pinjam buku.
-
-Tidak bisa pinjam jika stok habis.
-
-API Docs: Swagger (OpenAPI).
-
-🛠️ Tech Stack
-
-Laravel 11
-
-Laravel Sanctum
-
-MySQL
- / SQLite (testing)
-
-L5-Swagger
-
-Railway
- (Deploy)
-
-📦 Installation
-
-Clone repository:
-
-git clone https://github.com/username/library-api.git
-cd library-api
-
-
-Install dependencies:
-
+# install dependencies
 composer install
+
+# copy env
 cp .env.example .env
+
+# generate key
 php artisan key:generate
 
-
-Atur database di .env:
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=library_db
-DB_USERNAME=root
-DB_PASSWORD=
-
-
-Migrasi & seed:
-
+# migrate + seed
 php artisan migrate --seed
 
-
-Jalankan server:
-
+# jalankan server
 php artisan serve
+```
 
-🔑 Authentication (Sanctum)
+🔑 Authentication
 
-Register: POST /api/register
+Register → POST /api/register
 
-Login: POST /api/login → return token
+Login → POST /api/login → dapatkan token Sanctum.
 
-Logout: POST /api/logout
+📌 API Endpoints
 
-Gunakan token untuk akses endpoint lain.
+Method Endpoint Deskripsi
 
-📖 API Endpoints
-Books
+~GET /api/books List semua buku
+~POST /api/books Tambah buku
+~PUT /api/books/{id} Update buku
+~DELETE /api/books/{id} Hapus buku
+~POST /api/loans Pinjam buku
+~PUT /api/loans/{id}/return Kembalikan buku
 
-GET /api/books → list buku (support filter & search).
+Testing
 
-POST /api/books → tambah buku (admin only).
-
-PUT /api/books/{id} → update buku.
-
-DELETE /api/books/{id} → hapus buku.
-
-Borrowing
-
-POST /api/borrow/{book_id} → pinjam buku.
-
-✉️ Queue & Job
-
-Saat user meminjam buku, sistem mengirim email notifikasi ke log:
-
-tail -f storage/logs/laravel.log
-
-🧪 Testing
-
-Jalankan test:
+Jalankan semua test dengan:
 
 php artisan test
-
-
-Unit Test:
-
-Tambah buku.
-
-Pinjam buku.
-
-Tidak bisa pinjam jika stok habis.
-
-📑 API Documentation
-
-Swagger tersedia di:
-
-/api/documentation
-
-
-Generate ulang docs:
-
-php artisan l5-swagger:generate
